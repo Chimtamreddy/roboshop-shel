@@ -81,12 +81,19 @@ func_nodejs() {
  func_exit_status
 
   echo -e "\e[36m>>>>>>>>>>>>  Install NodeJS  <<<<<<<<<<<<\e[0m"
+  if [ $? -ne 0 ]; then
+    yum install nodejs -y &>>${log}
+  fi
 
   func_exit_status
 
   func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>>>  Download NodeJS Dependencies  <<<<<<<<<<<<\e[0m"
+  if [ $? -ne 0 ]; then
+    npm install &>>${log}
+
+  fi
 
   func_exit_status
 

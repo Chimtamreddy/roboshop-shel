@@ -1,3 +1,3 @@
 component=payment
-source=common.sh
+source common.sh
 func_python

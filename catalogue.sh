@@ -1,6 +1,6 @@
 
 
-echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Catalogue Service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Catalogue Service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a /tmp/roboshop.log
 cp catalogue.service /etc/systemd/system/catalogue.service &>>/tmp/roboshop.log
 echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Mongo Repo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>>/tmp/roboshop.log
@@ -28,7 +28,7 @@ echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install Mongo Client >>>>>>>>>>>>>>>
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
 echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Load Schema>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 mongo --host mongodb.anysite.info </app/schema/catalogue.js &>>/tmp/roboshop.log
-echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Start Catalogue Service>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Start Catalogue Service>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a /tmp/roboshop.log
 systemctl daemon-reload &>>/tmp/roboshop.log
 systemctl enable catalogue &>>/tmp/roboshop.log
 systemctl restart catalogue &>>/tmp/roboshop.log

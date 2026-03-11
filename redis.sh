@@ -4,5 +4,6 @@ dnf module disable redis -y
 dnf module enable redis:6 -y
 dnf install redis -y
 # Update listen address from 127.0.0.1 to 0.0.0.0 in /etc/redis.conf & /etc/redis/redis.conf
+sed -i 's/127.0.0.1/0.0.0.0' /etc/redis.conf /etc/redis/redis.conf
 systemctl enable redis
 systemctl restart redis

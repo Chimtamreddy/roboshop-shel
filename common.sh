@@ -58,3 +58,13 @@ func_java(){
 
   func_systemd
 }
+
+func_python(){
+  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Start Python Service>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  dnf install python36 gcc python3-devel -y &>>${log}
+  func_appreq
+  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Download Python Dependencies>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  pip3.6 install -r requirements.txt &>>${log}
+  func_systemd
+
+}

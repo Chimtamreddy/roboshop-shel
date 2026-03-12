@@ -46,7 +46,7 @@ func_appreq(){
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Download ${component} file >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip   &>>${log}
   func_exit_status
-  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Extract Catalogue Service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Extract  ${component}  Service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   cd /app
   unzip /tmp/${component}.zip   &>>${log}
   func_exit_status

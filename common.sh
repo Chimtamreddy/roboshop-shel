@@ -1,5 +1,22 @@
 log=/tmp/roboshop.log
 
+func_schema_setup(){
+  if [ "${schema_setup}" == "mongodb" ]; then
+    echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install Mongo Client >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+    dnf install mongodb-org-shell -y   &>>${log}
+    echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Load Schema>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+    mongo --host mongodb.anysite.info </app/schema/${component}.js   &>>${log}
+
+  fi
+
+  if [ "${schema_setup}" == "mysql" ]; then
+    echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install MySQL Client >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+    dnf install mysql -y &>>${log}
+    echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Load Schema >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+    mysql -h mysql.anysite.info -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+
+  fi
+}
 func_appreq(){
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>>>Create ${component} Service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a /tmp/roboshop.log
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
@@ -36,11 +53,8 @@ func_nodejs(){
   func_appreq
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install NPM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   npm install   &>>${log}
-  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install Mongo Client >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  dnf install mongodb-org-shell -y   &>>${log}
-  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Load Schema>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  mongo --host mongodb.anysite.info </app/schema/${component}.js   &>>${log}
 
+  func_schema_setup
   func_systemd
 }
 
@@ -51,10 +65,6 @@ func_java(){
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Create ${component} Package >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   mvn clean package &>>${log}
   mv target/shipping-1.0.jar shipping.jar &>>${log}
-  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install MySQL Client >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  dnf install mysql -y &>>${log}
-  echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Load Schema >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  mysql -h mysql.anysite.info -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
 
   func_systemd
 }

@@ -26,7 +26,10 @@ func_appreq(){
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo $?
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Application User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  useradd roboshop   &>>${log}
+  id roboshop
+  if [ $? -ne 0 ]; then
+    useradd roboshop   &>>${log}
+  fi
   echo $?
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Remove Existing Directory>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   rm -rf /app   &>>${log}

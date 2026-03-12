@@ -65,7 +65,7 @@ func_java(){
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Create ${component} Package >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   mvn clean package &>>${log}
   mv target/shipping-1.0.jar shipping.jar &>>${log}
-
+  func_schema_setup
   func_systemd
 }
 

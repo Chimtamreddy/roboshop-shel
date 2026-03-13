@@ -32,7 +32,7 @@ func_appreq(){
   cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   func_exit_status
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Application User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  id roboshop
+  id roboshop &>>${log}
   if [ $? -ne 0 ]; then
     useradd roboshop   &>>${log}
   fi
@@ -56,8 +56,8 @@ func_appreq(){
 func_systemd(){
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Start ${component} Service>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   systemctl daemon-reload   &>>${log}
-  systemctl enable catalogue   &>>${log}
-  systemctl restart catalogue   &>>${log}
+  systemctl enable ${component}   &>>${log}
+  systemctl restart ${component}   &>>${log}
   func_exit_status
 }
 
@@ -105,6 +105,7 @@ func_python(){
   echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Download Python Dependencies>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   pip3.6 install -r requirements.txt &>>${log}
   func_exit_status
+  sed -i "s/rabbitmq_app_password/${rabbitmq_app_password}/" /etc/systemd/system/${component}.service &>>${log}
   func_systemd
 
 }

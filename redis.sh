@@ -13,7 +13,7 @@ echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Install Redis>>>>>>>>>>>>>>>>>>>>>>>
 dnf install redis -y &>>${log}
 func_exit_status
 echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Update Redis Listen Address>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis.conf /etc/redis/redis.conf &>>${log}
+sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
 func_exit_status
 echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>>>Restart Redis>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 systemctl enable redis &>>${log}
